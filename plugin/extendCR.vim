@@ -11,9 +11,8 @@ fun! s:extendCR()
       let commst = matchstr(
             \ &commentstring, '\C^\s*\zs.*\S\ze\s*%s\s*$')
       if strlen(commst) && search('\V\C\^\.\{-}\zs'.escape(commst,'\'),'bW',line('.')) &&
-            \ search('\m\S','bnW',line('.'))
+            \ search('\m\S','bnW',line('.')) + cursor(0,col('$'))
         let vcol = virtcol('.') - 1
-        call cursor(0,col('$'))
         let align = matchstr(getline('.'),'\%'.(vcol+strlen(commst)+1).'v\s*')
         return "\<CR>0\<C-d>".repeat("\<TAB>",vcol/ws).repeat(' ',vcol%ws).commst.align
       endif
