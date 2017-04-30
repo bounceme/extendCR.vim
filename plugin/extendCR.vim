@@ -4,13 +4,13 @@ endif
 let g:loaded_extendCR = 1
 
 fun! s:extendCR()
-  if !search('\m\S','cnW',line('.'))
+  if col('.') == col('$')
     let ws = &sw == 0 ? &ts : &sw
     let syn = synIDattr(synID(line('.'),col('.') - 1,0),'name')
     if !get(b:,'no_extend_comment_CR',get(g:,'no_extend_comment_CR')) && syn =~? 'comment'
       let commst = matchstr(
             \ &commentstring, '\C^\s*\zs.*\S\ze\s*%s\s*$')
-      if strlen(commst) && search('\V\^\.\{-}\zs'.escape(commst,'\'),'bW',line('.')) &&
+      if strlen(commst) && search('\V\C\^\.\{-}\zs'.escape(commst,'\'),'bW',line('.')) &&
             \ search('\m\S','bnW',line('.'))
         let vcol = virtcol('.') - 1
         call cursor(0,col('$'))
