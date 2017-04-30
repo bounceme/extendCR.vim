@@ -10,13 +10,12 @@ fun! s:extendCR()
     if !get(b:,'no_extend_comment_CR',get(g:,'no_extend_comment_CR')) && syn =~? 'comment'
       let commst = matchstr(
             \ &commentstring, '\C^\s*\zs.*\S\ze\s*%s\s*$')
-      let pretext = matchstr(getline('.'),'\C\V\^\.\{-}\ze'.escape(commst,'\'))
-      if pretext =~ '\S'
-        let vcol = strdisplaywidth(pretext)
+      if strlen(commst) && search('\V\^\.\{-}\zs'.escape(commst,'\'),'bW',line('.')) &&
+            \ search('\m\S','bnW',line('.'))
+        let vcol = virtcol('.') - 1
+        call cursor(0,col('$'))
         let align = matchstr(getline('.'),'\%'.(vcol+strlen(commst)+1).'v\s*')
-        if vcol
-          return "\<CR>0\<C-d>".repeat("\<TAB>",vcol/ws).repeat(' ',vcol%ws).commst.align
-        endif
+        return "\<CR>0\<C-d>".repeat("\<TAB>",vcol/ws).repeat(' ',vcol%ws).commst.align
       endif
     elseif !get(b:,'no_split_braces_CR',get(g:,'no_split_braces_CR')) &&
           \ getline('.')[col('.')-2] == '{' && syn !~? 'string\|regex\|comment'
