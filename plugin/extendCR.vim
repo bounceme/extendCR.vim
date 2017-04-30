@@ -1,8 +1,13 @@
+if exists('g:loaded_extendCR')
+  finish
+endif
+let g:loaded_extendCR = 1
+
 fun! s:extendCR()
   if !search('\m\S','cnW',line('.'))
     let ws = &sw == 0 ? &ts : &sw
     let syn = synIDattr(synID(line('.'),col('.') - 1,0),'name')
-    if syn =~? 'comment'
+    if !get(b:,'no_extend_comment_CR',get(g:,'no_extend_comment_CR')) && syn =~? 'comment'
       let commst = matchstr(
             \ &commentstring, '\C^\s*\zs.*\S\ze\s*%s\s*$')
       let pretext = matchstr(getline('.'),'\C\V\^\.\{-}\ze'.escape(commst,'\'))
