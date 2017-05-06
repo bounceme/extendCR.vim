@@ -5,7 +5,7 @@ let g:loaded_extendCR = 1
 
 fun! s:extendCR()
   if col('.') == col('$')
-    let ws = max([!&sw?&ts:&sw,1])
+    let ws = &sw?&sw:&ts?&ts:1
     let syn = synIDattr(synID(line('.'),col('.') - 1,0),'name')
     if !get(b:,'no_extend_comment_CR',get(g:,'no_extend_comment_CR')) && syn =~? 'comment'
       let commst = matchstr(
