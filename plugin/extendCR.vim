@@ -11,10 +11,10 @@ fun! s:extendCR()
           \ match(map(syn,'string(eval(v:val))'),'\ccomment') != -1
       let commst = matchstr(
             \ &commentstring, '\C^\s*\zs.*\S\ze\s*%s\s*$')
-      if strlen(commst) && search('\V\C\^\.\{-}\zs'.escape(commst,'\'),'bW',line('.')) &&
+      if len(commst) && search('\V\C\^\.\{-}\zs'.escape(commst,'\'),'bW',line('.')) &&
             \ search('\m\S','bnW',line('.'))
         let vcol = virtcol('.') - 1
-        let align = matchstr(getline('.'),'\%'.(vcol+strlen(commst)+1).'v\s*')
+        let align = matchstr(getline('.'),'\%'.(vcol+len(commst)+1).'v\s*')
         return "\<CR>0\<C-d>".repeat("\<TAB>",vcol/ws).repeat(' ',vcol%ws).commst.align
       endif
     elseif !get(b:,'no_split_braces_CR',get(g:,'no_split_braces_CR')) &&
