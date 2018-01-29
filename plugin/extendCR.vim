@@ -8,7 +8,6 @@ fun! s:extendCR()
 		let syn = ["synIDattr(synID(line('.'),col('.')-1,0),'name')"]
 		if !get(b:,'no_extend_comment_CR',get(g:,'no_extend_comment_CR')) &&
 					\ match(map(syn,'string(eval(v:val))'),'\ccomment') != -1
-		echom 1
 			let commst = matchstr(&commentstring, '\C^\s*\zs.*\S\ze\s*%s\s*$')
 			if len(commst) && search('\V\C\^\.\{-}\zs'.escape(commst,'\'),'b',line('.')) &&
 						\ search('\m\S','bn',line('.'))
