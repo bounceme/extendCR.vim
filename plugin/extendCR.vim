@@ -4,7 +4,7 @@ endif
 let g:loaded_extendCR = 1
 
 fun! s:extendCR()
-	if !search('.','n',line('.'))
+	if !search('\m.','n',line('.'))
 		let syn = ["synIDattr(synID(line('.'),col('.')-1,0),'name')"]
 		if !get(b:,'no_extend_comment_CR',get(g:,'no_extend_comment_CR')) &&
 					\ match(map(syn,'string(eval(v:val))'),'\ccomment') != -1
