@@ -10,6 +10,9 @@ fun! s:extendCR()
 					\ match(map(syn,'string(eval(v:val))'),'\ccomment') != -1
 			let commst = matchstr(&commentstring, '\C^\s*\zs.*\S\ze\s*%s\s*$')
 			if len(commst) && search('\V\C\^\.\{-}\zs'.escape(commst,'\'),'b',line('.'))
+				if commst =~ '^\(.\)\1*$'
+					let commst = matchstr(getline('.')[col('.')-1:],'\V\^'.escape(commst,'\').'\+')
+				endif
 				let ws = &sw ? &sw : &ts
 				let vcol = virtcol('.') - 1
 				let align = matchstr(getline('.'),'\%'.(vcol+len(commst)+1).'v\s*')
