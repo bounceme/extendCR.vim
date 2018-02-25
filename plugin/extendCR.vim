@@ -3,7 +3,7 @@ if exists('g:loaded_extendCR')
 en
 let g:loaded_extendCR=1
 
-fu s:d()
+fu s:e()
 	if !search('\m.','n',line('.'))
 		let s=["synIDattr(synID(line('.'),col('.')-1,0),'name')"]
 		if !get(b:,'no_extend_comment_CR',get(g:,'no_extend_comment_CR'))&&match(map(s,'string(eval(v:val))'),'\ccomment')+1
@@ -29,4 +29,4 @@ fu s:d()
 	en
 	retu "\<CR>"
 endf
-ino <silent><expr><PLUG>extendCR <SID>d()
+ino <silent><expr><PLUG>extendCR <SID>e()
